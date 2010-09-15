@@ -6,7 +6,7 @@ rails_root = ENV['RAILS_ROOT'] || "/mnt/app/current"
   God.watch do |w|
     sleep 1
     w.group = 'stats_logger'
-    w.name = "stats_logger_1"
+    w.name = "stats_logger_#{i}"
     w.interval = 1.minutes
     w.env = {"RAILS_ENV" => "#{rails_env}"}
     w.start = "cd /mnt/app/current && QUEUES=stats_logger /usr/local/ruby-enterprise/bin/ruby /usr/local/ruby-enterprise/bin/rake environment resque:work > /dev/null"
