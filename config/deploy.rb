@@ -13,3 +13,7 @@ set :ruby_prefix, "/usr/local/ruby-enterprise/bin"
 role :web, "ec2-67-202-63-244.compute-1.amazonaws.com"
 role :app, "ec2-67-202-63-244.compute-1.amazonaws.com"
 role :db,  "ec2-67-202-63-244.compute-1.amazonaws.com", :primary => true
+
+task :ssh do
+  system "ssh -o StrictHostKeyChecking=no root@ec2-67-202-63-244.compute-1.amazonaws.com"
+end
