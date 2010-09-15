@@ -6,4 +6,4 @@ test:
 staging: 
   server: 10.211.19.223
 production: 
-  server: 10.202.158.47
+  server: 10.250.77.219
