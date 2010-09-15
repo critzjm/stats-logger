@@ -9,7 +9,7 @@ rails_root = ENV['RAILS_ROOT'] || "/mnt/app/current"
     w.name = "stats_logger_#{i}"
     w.interval = 1.minutes
     w.env = {"RAILS_ENV" => "#{rails_env}"}
-    w.start = "cd /mnt/app/current && QUEUES=stats_logger /usr/local/ruby-enterprise/bin/ruby /usr/local/ruby-enterprise/bin/rake environment resque:work > /dev/null"
+    w.start = "cd /mnt/app/current && RAILS_ENV=production QUEUES=stats_logger /usr/local/ruby-enterprise/bin/ruby /usr/local/ruby-enterprise/bin/rake environment resque:work > /dev/null"
     w.stop = "/mnt/app/current/system/scripts/process_killer.sh 'stats_logger' QUIT"
 
     w.start_if do |start|

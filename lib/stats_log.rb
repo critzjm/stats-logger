@@ -1,4 +1,5 @@
-class Log
+class StatsLog < ResqueJob
+  queue :stats_log
 
   def self.perform(options)
     if user = User.find_or_create_by_vid(options["vid"])
