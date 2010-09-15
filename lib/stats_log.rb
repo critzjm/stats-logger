@@ -1,7 +1,7 @@
 class StatsLog < ResqueJob
   queue :stats_log
 
-  def self.perform(options)
+  def perform(options)
     options = ActiveSupport::JSON.decode(options)
     if user = User.find_or_create_by_vid(options["vid"])
       attributes = {
