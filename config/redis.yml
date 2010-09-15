@@ -1,0 +1,9 @@
+--- 
+development: 
+  server: 127.0.0.1
+test: 
+  server: 127.0.0.1
+staging: 
+  server: 10.211.19.223
+production: 
+  server: 10.202.158.47
