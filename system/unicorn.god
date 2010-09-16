@@ -1,6 +1,8 @@
 #-- Great Reference: http://unicorn.bogomips.org/SIGNALS.html
 #-- NOTE: This only controls the MASTER UNICORN
 #-- See the cronjob (system/scripts/unicorn_killer.pl) for killing workers that go nuts
+#-- god -c /mnt/app/current/system/unicorn.god -l /mnt/log/god.log --no-syslog --log-level error
+#--
  
 rails_env = ENV['RAILS_ENV'] || 'production'
 rails_root = ENV['RAILS_ROOT'] || "/mnt/app/current"
