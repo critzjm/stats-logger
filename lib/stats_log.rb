@@ -2,22 +2,8 @@ class StatsLog < ResqueJob
   queue :stats_log
 
   def perform(options)
-    options = ActiveSupport::JSON.decode(options)
+    options = JSON.parse(options)
     log(options)
-    
-    if options["ab_view_ids"] && (ab_view_ids = options["ab_view_ids"]).any?
-      ab_view_ids.uniq.each do |ab_id|
-        ab_view_opts = options.dup
-        log(ab_view_opts.merge!("type" => "ab_view", "ab_test_id" => ab_id))
-      end
-    end
-
-    if options["ab_click_ids"] && (ab_view_ids = options["ab_click_ids"]).any?
-      ab_click_ids.uniq.each do |ab_id|
-        ab_click_opts = options.dup
-        log(ab_click_opts.merge!("type" => "ab_click", "ab_test_id" => ab_id))
-      end
-    end
 
     return true    
   end
@@ -28,7 +14,7 @@ class StatsLog < ResqueJob
         :user_id => user.id,
         :ab_test_id => options["ab_test_id"],
         :referrer => options["referrer"],
-        :user_agent => options["user_agent"],
+        :user_agent => options["user_agent"].gsub(/\|/, " "), # not sure why, but spaces were breaking popping off the resque queue, so we're replacing them
         :path_name => options["path_name"],
         :query_string => options["query_string"],
         :log_type => options["type"]
