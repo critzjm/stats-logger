@@ -7,6 +7,7 @@ class LoggerController < ApplicationController
       params.delete(:action)
       params.delete(:controller)
       params[:user_agent] = params[:user_agent].gsub(/ /, "|") if params[:user_agent] # not sure why, but spaces were breaking popping off the resque queue, so we're replacing them
+      Rails.logger.info "==\n#{params.inspect}\n=="
       Resque.enqueue(StatsLog, params.to_json)
     end
     render :json => {}
