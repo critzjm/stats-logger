@@ -28,6 +28,14 @@ namespace :deploy do
     run "#{ruby_prefix}/god restart unicorn"
   end
 
+  task :start_nginx, :roles => :web do
+    run "#{ruby_prefix}/ruby #{ruby_prefix}/god -p 17167 -c /mnt/app/current/system/nginx.god -l /mnt/log/god.log --no-syslog --log-level error"
+  end
+
+  task :stop_nginx, :roles => :web do
+    run "#{ruby_prefix}/ruby #{ruby_prefix}/god -p 17167 terminate"
+  end
+
   task :restart_job_queues, :roles => :app do
     if rails_env == 'production'
       run "#{ruby_prefix}/god -p 17166 unmonitor stats_log"
