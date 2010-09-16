@@ -4,6 +4,6 @@ development:
 test: 
   server: 127.0.0.1
 staging: 
-  server: 10.211.19.223
+  server: 127.0.0.1
 production: 
-  server: 10.250.77.219
+  server: 127.0.0.1
