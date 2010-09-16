@@ -15,6 +15,7 @@ role :app, "ec2-67-202-63-244.compute-1.amazonaws.com"
 role :db,  "ec2-67-202-63-244.compute-1.amazonaws.com", :primary => true
 
 after "deploy:update_code", "deploy:bundle_gems"
+after "deploy", "deploy:restart_job_queues"
 
 task :ssh do
   system "ssh -o StrictHostKeyChecking=no root@ec2-67-202-63-244.compute-1.amazonaws.com"
@@ -24,6 +25,17 @@ namespace :deploy do
   task :restart, :roles => :app do
     #run "touch #{current_path}/tmp/restart.txt"
     run "#{ruby_prefix}/god restart unicorn"
+  end
+
+  task :restart_job_queues, :roles => :app do
+    if rails_env == 'production'
+      run "#{ruby_prefix}/god -p 17166 unmonitor stats_log"
+      run "/mnt/app/current/system/scripts/process_killer.sh photo_resize QUIT"
+      run "#{ruby_prefix}/god -p 17166 terminate"
+    end
+    if rails_env == 'production'
+      run "#{ruby_prefix}/ruby #{ruby_prefix}/god -p 17166 -c /mnt/app/current/system/god_configs/job_queues.god -l /mnt/log/god.log --no-syslog --log-level error"
+    end
   end
 
   task :bundle_gems, :roles => :app do
