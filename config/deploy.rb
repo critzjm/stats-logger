@@ -14,6 +14,26 @@ role :web, "ec2-67-202-63-244.compute-1.amazonaws.com"
 role :app, "ec2-67-202-63-244.compute-1.amazonaws.com"
 role :db,  "ec2-67-202-63-244.compute-1.amazonaws.com", :primary => true
 
+after "deploy:update_code", "deploy:bundle_gems"
+
 task :ssh do
   system "ssh -o StrictHostKeyChecking=no root@ec2-67-202-63-244.compute-1.amazonaws.com"
+end
+
+namespace :deploy do
+  task :restart, :roles => :app do
+    #run "touch #{current_path}/tmp/restart.txt"
+    run "#{ruby_prefix}/god restart unicorn"
+  end
+
+  task :bundle_gems, :roles => :app do
+    # normally we don't want this, but if the gems cache gets messed up somehow, this should force a refresh:
+    #run "rm -rf /mnt/app/current/vendor/cache"
+
+    cmd = [
+           "cd #{current_path}",
+           "#{ruby_prefix}/bundle install",
+          ].join(" && ")
+    run cmd
+  end
 end
