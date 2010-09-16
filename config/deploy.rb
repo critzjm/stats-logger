@@ -34,7 +34,7 @@ namespace :deploy do
       run "#{ruby_prefix}/god -p 17166 terminate"
     end
     if rails_env == 'production'
-      run "#{ruby_prefix}/ruby #{ruby_prefix}/god -p 17166 -c /mnt/app/current/system/god_configs/job_queues.god -l /mnt/log/god.log --no-syslog --log-level error"
+      run "#{ruby_prefix}/ruby #{ruby_prefix}/god -p 17166 -c /mnt/app/current/system/job_queues.god -l /mnt/log/god.log --no-syslog --log-level error"
     end
   end
 
