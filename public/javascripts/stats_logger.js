@@ -1,3 +1,4 @@
+// StatsLogger JS API wrapper
 var StatsLogger = {
   type: 'page_view',
   vid: null,
@@ -19,7 +20,7 @@ var StatsLogger = {
       path_name:this.pathName,
       query_string:this.queryString
     }
-    $.get('http://localhost:3000/log', params);
+    $.get('http://stats.gowalla.com/log', params);
   }
   
 }
