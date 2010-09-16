@@ -9,6 +9,7 @@ set :user, "root"
 set :use_sudo, false
 
 set :ruby_prefix, "/usr/local/ruby-enterprise/bin"
+set :rails_env, 'production'
 
 role :web, "ec2-67-202-63-244.compute-1.amazonaws.com"
 role :app, "ec2-67-202-63-244.compute-1.amazonaws.com"
